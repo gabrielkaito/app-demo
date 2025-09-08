@@ -24,20 +24,20 @@ jobs:
         # UserKnownHostsFile: para não salvar a chave
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
-               sudo mkdir -p /home/ubuntu/dev 
+               sudo mkdir -p /home/ubuntu/dev/appdemo 
 
       - name: Ajustar permissões no servidor de Produção
         run: |
-          ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} "sudo chown -R ubuntu:ubuntu /home/ubuntu/dev && sudo chmod -R 755 /home/ubuntu/dev"
+          ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} "sudo chown -R ubuntu:ubuntu /home/ubuntu/dev && sudo chmod -R 755 /home/ubuntu/dev/appdemo"
                      
       - name: Transferindo os arquivos da aplicação
         run: |
-               scp -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/* ubuntu@${{ secrets.HOST }}:/home/ubuntu/dev
+               scp -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r ${{ github.workspace }}/* ubuntu@${{ secrets.HOST }}:/home/ubuntu/dev/appdemo
 
       - name: Restaurando a aplicação
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
-               npm install --prefix /home/ubuntu/dev \
+               npm install --prefix /home/ubuntu/dev/appdemo
 
       - name: Reiniciando o serviço da aplicação
         run: |
