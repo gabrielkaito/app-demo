@@ -37,7 +37,7 @@ jobs:
       - name: Restaurando a aplicação
         run: |
                ssh -i /tmp/private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${{ secrets.HOST }} \
-               sudo npm install --prefix /home/ubuntu/dev \
+               npm install --prefix /home/ubuntu/dev \
 
       - name: Reiniciando o serviço da aplicação
         run: |
