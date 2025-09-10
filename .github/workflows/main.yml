@@ -48,8 +48,12 @@ jobs:
         run: |
            rm /tmp/private_key
 
-      - name: Notificar pelo Slack
+      - name: Enviar mensagem para o Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          AUTHOR: ${{ github.actor }}
         run: |
-            curl -X POST -H 'Content-type: application/json' \
-              --data '{"text":"Deploy realizado com sucesso!"}' \
-              ${{ secrets.SLACK }}           
+          curl -H "Content-Type: application/json" \
+                 -X POST \
+                 -d "{\"content\": \"Deploy realizado com sucesso por **${AUTHOR}**!\"}" \
+                 $DISCORD_WEBHOOK      
